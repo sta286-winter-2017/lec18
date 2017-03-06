@@ -1,0 +1,85 @@
+---
+title: "STA286 Lecture 17"
+author: "Neil Montgomery"
+date: "Last edited: `r format(Sys.time(), '%Y-%m-%d %H:%M')`"
+output: 
+  beamer_presentation:
+    keep_tex: TRUE
+    incremental: TRUE
+    df_print: tibble
+    fig_caption: FALSE
+classoption: aspectratio=169
+header-includes:
+- \renewcommand{\le}{\leqslant}
+- \renewcommand{\ge}{\geqslant}
+- \renewcommand\P[1]{P{\left(#1\right)}}
+- \newcommand\F[1]{F_{\tiny{#1}}}
+- \newcommand\f[1]{f_{\tiny{#1}}}
+- \newcommand\p[1]{p_{\tiny{#1}}}
+- \newcommand\M[1]{M_{\tiny{#1}}}
+- \newcommand\V[1]{\text{Var}\!\left(#1\right)}
+- \newcommand\E[1]{E\!\left(#1\right)}
+- \newcommand\N[1]{N_{\tiny{#1}}}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE, message=FALSE)
+options(tibble.width=70)
+```
+
+
+## the normal distributions
+
+We say $Z$ has a "standard" normal distribution, or $Z\sim N(0,1)$, if its density is:
+$$f(z) = \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^2},\qquad -\infty < z < \infty$$
+
+\pause Is this a density?
+
+\pause $E(Z)=0$ (easy integral) and $\V{Z}=1$ (easy integration by parts).
+
+\pause Since $\int\limits_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}z^2}\,dz = 1$, the change of variables $z = \frac{x-\mu}{\sigma}$ for any $\mu$ and any $\sigma > 0$ shows the following is also a valid density:
+$$f(x) = \frac{1}{\sigma\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
+\pause We say $X$ has a normal distribution with parameters $\mu$ and $\sigma$, or $X \sim N(\mu, \sigma)$, when it has this density. 
+
+## normal mgf and some implications
+
+Tedious algebra and calculus show (not interesting - see textbook or internet):
+$$\M{X}(t) = e^{\mu t + \sigma^2 t^2/2}$$
+
+\pause Suppose $Z \sim N(0,1)$. What is the distribution of $X = \mu + \sigma Z$ for any $\mu$ and $\sigma > 0$?
+
+\pause Answer: $X \sim N(\mu, \sigma)$.
+
+\pause Suppose $X \sim N(\mu, \sigma)$. What is the distribution of $Z = \frac{X-\mu}{\sigma}$?
+
+\pause Answer: $Z \sim N(0,1)$.
+
+\pause A linear transformation of a normal is normal. 
+
+\pause If $X_1$ and $X_2$ are normal, what is $X_1 + X_2$?
+
+## normal probability calculations
+
+Since the normal density has no anti-derivative (the usual case with functions, BTW), probability calculations are a problem for the computer, or a table of probabilities, which you will need to practice if necessary.
+
+\pause Why only one table when there are many normal distributions? 
+
+\pause I'll do a few examples from the `normal_bootcamp.pdf` drill document contained with these notes.
+
+## some normal probabilities to remember
+
+The classic plus-or-minus $k\sigma$ probabilities (with exact values):
+
+\pause $$P(\mu - \sigma < X < \mu + \sigma) \approx 0.68 \qquad (`r diff(pnorm(c(-1,1)))`)$$
+
+\pause $$P(\mu - 2\sigma < X < \mu + 2\sigma) \approx 0.95 \qquad (`r diff(pnorm(c(-2,2)))`)$$
+
+\pause $$P(\mu - 3\sigma < X < \mu + 3\sigma) \approx 0.997 \qquad (`r diff(pnorm(c(-3,3)))`)$$
+
+\pause Bonus probabilities:
+
+ $$P(\mu - 6\sigma < X < \mu + 6\sigma) = `r options(digits=12);diff(pnorm(c(-6,6)))`$$
+ $$P(\mu - 8.5\sigma < X < \mu + 4.5\sigma) = `r options(digits=12);diff(pnorm(c(-8.5,4.5)))`$$
+
+ 
+
